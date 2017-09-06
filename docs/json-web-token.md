@@ -2,6 +2,10 @@
 
 本文内容主要来自于对 [jwt.io](https://jwt.io/introduction/) 的解读。
 
+<p align="center">
+  <img alt="JWT Logo" src="../img/logo.svg">
+</p>
+
 ## JWT 是什么？
 
 JSON Web Token （JWT）是一个精简的开放标准（[RFC 7519](https://tools.ietf.org/html/rfc7519))，用来在不同实体之间传递安全可靠的信息。
@@ -34,7 +38,12 @@ JWT 由三部分内容组成，包括：
 
 ### 头部
 
-头部一般包含两个字段，即令牌类型和签名算法。令牌类型始终是 `JWT` ；签名算法可以是 HMAC SHA256 或者 RSA 。例如，使用 HMAC SHA256 签名算法的头部为：
+头部一般包含两个字段，即令牌类型和签名算法。令牌类型始终是 `JWT` ；签名算法可以是 HMAC SHA256 或者 RSA 。
+
+> [HMAC](https://www.ietf.org/rfc/rfc2104.txt)：Hash-based Message Authentication Code，密钥相关的哈希运算消息认证码。
+> HMAC 标准定义了 HMAC 的生成方式：使用哈希算法（通常是 MD5、SHA-1）对消息和密钥进行签名得到 HMAC
+
+例如，使用 HMAC SHA256 签名算法的头部为：
 
 ```json
 {
@@ -94,11 +103,15 @@ const signature = HMACSHA256(
 
 所以，最终生成的 JWT 为：
 
-![JWT](../img/jwt.png)
+<p align="center">
+  <img alt="JWT" src="../img/jwt.png">
+</p>
 
 ## 工作原理
 
-![jwt-diagram](../img/jwt-diagram.png)
+<p align="center">
+  <img alt="jwt-diagram" src="../img/jwt-diagram.png">
+</p>
 
 1. 用户在客户端输入账号和密码并提交
 2. 账户验证通过后，服务端使用私钥生成 JWT
@@ -108,11 +121,11 @@ const signature = HMACSHA256(
 
 ## 使用优势
 
-* 适用于前后端分离的多平台接口认证
-* 不需要在服务端保存会话信息，对分布式应用具备亲和性
+* 不需要在服务端保存会话信息，对分布式应用具备天生的亲和性
 * 目前很多语言都支持 JSON ，使得 JWT 可以进行跨语言应用
 
 ## 注意事项
 
+* 使用 HTTPS ，防止被拦截
 * 避免在载荷中存放敏感信息，因为它仅仅是经过了 Base64 编码，是可以简单的还原为原文的。
 * 慎重考虑 JWT 的存放位置，如 localStorage、Cookie 等，避免 XSS、CSRF 攻击，如果存放在 Cookie 中，一定要设置为 `HttpOnly`
